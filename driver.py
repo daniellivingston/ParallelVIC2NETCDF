@@ -18,7 +18,7 @@ from tonic.models.vic import netcdf2vic, compare_soil_params, grid_params, \
 
 # Define global 'constants'
 BASE_CLASS_FILE = os.path.join(os.getcwd(),'control.cfg')
-NPROCS = 40
+NPROCS = 20
 YEAR_RANGE = [1950,2098]
 
 
