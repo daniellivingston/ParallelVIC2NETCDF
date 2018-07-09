@@ -17,7 +17,7 @@ from tonic.models.vic import netcdf2vic, compare_soil_params, grid_params, \
 
 
 # Define global 'constants'
-BASE_CLASS_FILE = '/lclscratch/livingston/ECR/testing/parallel/control.cfg'
+BASE_CLASS_FILE = os.path.join(os.getcwd(),'control.cfg')
 NPROCS = 40
 YEAR_RANGE = [1950,2098]
 
@@ -92,7 +92,9 @@ def run_config(cfg):
     print('SUBPROCESS COMPLETED: %d seconds' % (t1-t0))
 
 if (__name__ == '__main__'):
+    # Init global timer and generate control files
     print('Initializing...')
+    t0 = time.perf_counter()
     control_files = create_control_files()
 
     # Run all generated control files among NPROC files
@@ -101,5 +103,8 @@ if (__name__ == '__main__'):
     pool.map(run_config, control_files)
     print('Done.')
 
+    # Close global timer and print out
+    t1 = time.perf_counter()
+    print("Total runtime: {}".format(t1-t0))
 
 
