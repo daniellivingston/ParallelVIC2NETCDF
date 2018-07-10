@@ -52,11 +52,11 @@ def create_control_files(args):
     # Generate year range
     year_range = [args.year_begin,args.year_end]
 
-    # Check if exists - if not, create
+    # Check if dirs exists - if not, create
     if not os.path.exists(cfile_dir):
         os.mkdir(cfile_dir)
     if not os.path.exists(args.outdir):
-        print(args.outdir)
+        os.mkdir(args.outdir)
 
     assert isinstance(args.nprocs,int), 'nprocs must be an integer'
     assert isinstance(args.gcm,str), 'GCM must be a string'
@@ -75,10 +75,10 @@ def create_control_files(args):
         # Generate all sed commands
         cmds = ["sed -i 's/YEARBEGIN/%d/g' %s" % (slices[i][0],proc_file),
                 "sed -i 's/YEAREND/%d/g' %s" % (slices[i][-1],proc_file),
-                "sed -i 's/PROCESSGCM/%s/g' %s" % (args.gcm,proc_file),
                 "sed -i 's,GCMINDIRECTORY,%s,g' %s" % (args.infiles,proc_file),
                 "sed -i 's,GCMOUTDIRECTORY,%s,g' %s" % (args.outdir,proc_file),
-                "sed -i 's,GCMOUTPREFIX,%s,g' %s" % (args.prefix,proc_file)]
+                "sed -i 's,GCMOUTPREFIX,%s,g' %s" % (args.prefix,proc_file),
+                "sed -i 's/PROCESSGCM/%s/g' %s" % (args.gcm,proc_file)]
 
         # Run all sed commands
         for cmd in cmds:
